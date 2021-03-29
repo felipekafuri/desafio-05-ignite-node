@@ -25,6 +25,12 @@ export class migration1616108470200 implements MigrationInterface {
     await queryRunner.query(
       'ALTER TABLE "users_games_games" ADD CONSTRAINT "FK_934b0d8f9d0084c97d3876ad32d" FOREIGN KEY ("gamesId") REFERENCES "games"("id") ON DELETE CASCADE ON UPDATE NO ACTION',
     );
+    await queryRunner.query(
+      'CREATE TABLE "genres" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "genre" character varying NOT NULL, "gamesId" uuid NOT NULL,"created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_3894up9382ijfp384ht58531" PRIMARY KEY ("id"))',
+    );
+    await queryRunner.query(
+      'ALTER TABLE "genres" ADD CONSTRAINT "FK_q38450293845702345" FOREIGN KEY ("gamesId") REFERENCES "games"("id") ON DELETE CASCADE ON UPDATE NO ACTION',
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
